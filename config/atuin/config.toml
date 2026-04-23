@@ -1,0 +1,36 @@
+# ── atuin — encrypted, searchable shell history ────────────────────
+# After install: run `atuin register` (or `atuin login`) to enable sync.
+
+# Display
+style                = "compact"      # full | compact | auto
+inline_height        = 25
+show_preview         = true
+show_help            = true
+exit_mode            = "return-original"
+
+# Search behavior
+search_mode          = "fuzzy"        # fuzzy | prefix | fulltext | skim
+filter_mode          = "global"       # global | host | session | directory
+filter_mode_shell_up_key = "session"
+# Show commands from most recently used dirs first:
+workspaces           = true
+
+# Keymap — respect our bindings (we disabled up-arrow in zshrc)
+enter_accept         = true
+keymap_mode          = "auto"
+
+# Sync (the server is atuin.sh by default; self-host with ATUIN_SERVER)
+auto_sync            = true
+sync_frequency       = "10m"
+
+# Don't log these
+[secrets_filter]
+enabled = true
+
+# Extra patterns you never want in history:
+[history_filter]
+cmds = [
+  "^\\s+",              # commands starting with space
+  "^op run",            # 1Password secret injections
+  "aws .* --profile",   # keep AWS creds out
+]

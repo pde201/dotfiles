@@ -1,0 +1,126 @@
+# User identity lives in ~/.gitconfig.local (not tracked).
+# Work repos under ~/work/ override via ~/.gitconfig-work.
+[include]
+	path = ~/.gitconfig.local
+
+[includeIf "gitdir:~/work/"]
+	path = ~/.gitconfig-work
+
+[init]
+	defaultBranch = main
+
+[core]
+	editor          = vim
+	pager           = delta
+	excludesfile    = ~/.gitignore_global
+	autocrlf        = input
+	fsmonitor       = true
+	untrackedCache  = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate          = true
+	line-numbers      = true
+	side-by-side      = false
+	features          = decorations
+	syntax-theme      = Monokai Extended
+	file-style        = bold yellow
+	hunk-header-style = file line-number
+
+[merge]
+	conflictstyle = zdiff3
+	tool          = vimdiff
+
+[diff]
+	colorMoved     = zebra
+	algorithm      = histogram
+	renames        = copies
+	submodule      = log
+
+[pull]
+	rebase = true
+	ff     = only
+
+[push]
+	autoSetupRemote = true
+	default         = current
+	followTags      = true
+
+[fetch]
+	prune         = true
+	pruneTags     = true
+	parallel      = 0
+
+[rebase]
+	autoSquash    = true
+	autoStash     = true
+	updateRefs    = true
+
+[rerere]
+	enabled    = true
+	autoupdate = true
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -creatordate
+
+[help]
+	autocorrect = prompt
+
+[color]
+	ui = auto
+
+[alias]
+	# status / log
+	s   = status -sb
+	l   = log --oneline --graph --decorate -20
+	ll  = log --oneline --graph --decorate --all
+	lg  = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+
+	# diff
+	d   = diff
+	dc  = diff --cached
+	dw  = diff --word-diff
+	dt  = difftool
+
+	# commit
+	c   = commit
+	cm  = commit -m
+	ca  = commit --amend --no-edit
+	cam = commit -am
+
+	# branch / checkout / switch
+	co  = checkout
+	sw  = switch
+	br  = branch
+	brc = branch --show-current
+	bra = branch -a --sort=-committerdate
+
+	# stash
+	ss  = stash save
+	sp  = stash pop
+	sl  = stash list
+
+	# remote / sync
+	f   = fetch --all --prune
+	p   = push
+	pl  = pull --rebase
+	up  = !git fetch --all --prune && git pull --rebase
+
+	# reset / undo
+	undo   = reset HEAD~1 --mixed
+	amend  = commit --amend --no-edit
+	wipe   = !git add -A && git commit -qm 'WIP' && git reset HEAD~1 --hard
+
+	# quality-of-life
+	root       = rev-parse --show-toplevel
+	aliases    = config --get-regexp ^alias\\.
+	contribs   = shortlog -sn --no-merges
+	recent     = for-each-ref --count=20 --sort=-committerdate refs/heads/ --format='%(refname:short) — %(committerdate:relative)'

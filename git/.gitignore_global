@@ -1,0 +1,57 @@
+# ──────────────────────────────────────────────────────────────────────
+#  ~/.gitignore_global — things that NEVER belong in any repo
+# ──────────────────────────────────────────────────────────────────────
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+.claude/local*
+.claude/settings.local.json
+
+# Env / secrets (safety net — repos should have their own too)
+.env
+.env.local
+.env.*.local
+
+# Direnv
+.envrc.cache
+
+# Node
+node_modules/
+.npm/
+.yarn-cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Java / JVM
+*.class
+.gradle/
+build/
+target/
+out/
+
+# Misc
+*.log
+.DS_Store?
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
