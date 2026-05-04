@@ -36,7 +36,7 @@ mkdir -p "$HOME/Applications"
 
 # ── 2. Brew bundle ───────────────────────────────────────────────────
 say "Installing formulas & casks from Brewfile"
-"$BREW_PREFIX/bin/brew" bundle --file="$DOTFILES/Brewfile" --no-lock
+"$BREW_PREFIX/bin/brew" bundle install --file="$DOTFILES/Brewfile"
 
 # ── 3. Symlink dotfiles ──────────────────────────────────────────────
 link() {

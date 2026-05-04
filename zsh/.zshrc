@@ -47,9 +47,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive
 
 # ── Keybindings ──────────────────────────────────────────────────────
-bindkey -e                              # emacs mode
-bindkey '^[[A' history-substring-search-up 2>/dev/null || true
-bindkey '^[[B' history-substring-search-down 2>/dev/null || true
+bindkey -e                              # emacs mode — Ctrl-R invokes atuin
 
 # ── Aliases: modern tool replacements ────────────────────────────────
 if command -v eza >/dev/null; then
@@ -83,8 +81,8 @@ alias ....='cd ../../..'
 
 # ── Tool init (order matters — starship last) ────────────────────────
 command -v mise     >/dev/null && eval "$(mise activate zsh)"
-command -v zoxide   >/dev/null && eval "$(zoxide init zsh --cmd cd)"
-command -v atuin    >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
+command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"  # `z <dir>` fuzzy-jump, `zi` interactive, `cd` unchanged
+command -v atuin    >/dev/null && eval "$(atuin init zsh)"  # ↑ and Ctrl-R both open atuin
 
 # fzf keybindings (installed by install.sh via $(brew --prefix fzf)/install)
 [ -f "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
@@ -98,3 +96,4 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # ── Local overrides (not tracked) ─────────────────────────
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+export NODE_EXTRA_CA_CERTS="$(brew --prefix)/etc/ca-certificates/cert.pem"

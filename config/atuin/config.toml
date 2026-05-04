@@ -11,7 +11,7 @@ exit_mode            = "return-original"
 # Search behavior
 search_mode          = "fuzzy"        # fuzzy | prefix | fulltext | skim
 filter_mode          = "global"       # global | host | session | directory
-filter_mode_shell_up_key = "session"
+filter_mode_shell_up_key = "global"   # ↑ searches all history, like Ctrl-R
 # Show commands from most recently used dirs first:
 workspaces           = true
 
@@ -23,13 +23,11 @@ keymap_mode          = "auto"
 auto_sync            = true
 sync_frequency       = "10m"
 
-# Don't log these
-[secrets_filter]
-enabled = true
+# Scrub common secret patterns (API keys, JWTs, URL-embedded creds) before saving
+secrets_filter = true
 
-# Extra patterns you never want in history:
-[history_filter]
-cmds = [
+# Extra regex patterns to exclude from history
+history_filter = [
   "^\\s+",              # commands starting with space
   "^op run",            # 1Password secret injections
   "aws .* --profile",   # keep AWS creds out

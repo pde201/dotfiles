@@ -17,8 +17,6 @@ always_keep_install     = false
 asdf_compat             = true
 quiet                   = false
 
-missing_runtime_behavior = "autoinstall"
-
 # Trust project mise.toml files automatically (only those you've seen)
 trusted_config_paths = [
   "~/work",

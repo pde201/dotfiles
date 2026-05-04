@@ -50,7 +50,8 @@ brew "mkcert"                # local HTTPS CA (no sudo for certs in user trust s
 brew "awscli"
 
 # ── Security / signing ───────────────────────────────────────────────
-brew "gnupg"                 # commit signing, secret decryption
+# brew "gnupg"               # removed — SSH signing / 1Password SSH agent covers our needs
+#                              re-add if you need PGP commit signing or encrypted email
 
 # ── Fonts (Nerd-Font patched for prompt glyphs) ──────────────────────
 cask "font-jetbrains-mono-nerd-font"

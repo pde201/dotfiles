@@ -48,7 +48,7 @@ modified  = "!${count} "
 staged    = "+${count} "
 renamed   = "»${count} "
 deleted   = "✘${count} "
-stashed   = "$ "
+stashed   = '≡ '
 
 [cmd_duration]
 min_time = 2000
