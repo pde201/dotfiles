@@ -2,10 +2,7 @@
 # Per-project tool pins belong in each repo's own mise.toml; this is the
 # global fallback for ad-hoc shells.
 #
-# Install the current tools from this file with:   mise install
-
-[tools]
-# Uncomment and pin what you use daily:
+# Install tools listed here with:   mise install
 
 [settings]
 # Speed: parallel installs, cache aggressively, don't ask about updates

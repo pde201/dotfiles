@@ -56,24 +56,24 @@ format   = "[took $duration](fg:#7a7567) "
 
 # ── Runtime context: shown ONLY in detected project dirs ───────────
 [java]
-format = "[☕ ](bold fg:#f9f3ba) "
+format = "[☕](bold fg:#f9f3ba) "
 detect_extensions = ["java", "class", "jar"]
 detect_files = ["pom.xml", "build.gradle", "build.gradle.kts", "settings.gradle", "mise.toml"]
 
 [nodejs]
-format = "[⬢ ](bold fg:#96c7b2) "
+format = "[⬢](bold fg:#96c7b2) "
 detect_files = ["package.json", ".nvmrc", "mise.toml"]
 
 [python]
-format = "[🐍 ](bold fg:#b3daa9) "
+format = "[🐍](bold fg:#b3daa9) "
 detect_extensions = ["py"]
 detect_files = ["pyproject.toml", "requirements.txt", "mise.toml"]
 
 [golang]
-format = "[🐹 ](bold fg:#96c7b2) "
+format = "[🐹](bold fg:#96c7b2) "
 
 [rust]
-format = "[🦀 ](bold fg:#c2b59b) "
+format = "[🦀](bold fg:#c2b59b) "
 
 [aws]
 format = "[☁ $profile($region)](bold fg:#f9f3ba) "

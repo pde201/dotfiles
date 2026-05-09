@@ -1,11 +1,13 @@
 # ──────────────────────────────────────────────────────────────────────
 #  Developer-first Brewfile
-#  Usage: brew bundle --file=Brewfile
-#  Works with userland brew (~/homebrew) or /opt/homebrew.
+#  Usage: brew bundle install --no-upgrade --file=Brewfile
+#  Uses standard Homebrew prefixes, with ~/homebrew as no-sudo fallback.
 # ──────────────────────────────────────────────────────────────────────
 
 # ── Runtime / language management ────────────────────────────────────
 brew "mise"                  # the one tool that replaces nvm/pyenv/sdkman/rbenv
+brew "node"                  # npm runtime for AI coding CLIs (Claude Code, Codex)
+brew "pi-coding-agent"       # pi CLI / TUI coding agent
 
 # ── Shell / prompt / history / launcher ──────────────────────────────
 brew "starship"              # cross-shell prompt with project context
@@ -23,6 +25,14 @@ brew "sd"                    # modern `sed`
 brew "git-delta"             # beautiful git diff pager
 brew "difftastic"            # structural (AST-aware) diffs
 brew "just"                  # command runner (saner `make`)
+brew "ast-grep"              # structural code search / rewrites
+brew "tokei"                 # fast code statistics
+brew "typos-cli"             # source-code spell checker
+brew "taplo"                 # TOML formatter / language server
+brew "watchexec"             # run commands when files change
+brew "ouch"                  # one CLI for archives: zip/tar/gz/etc.
+brew "tailspin"              # log highlighter (`tspin`)
+brew "oha"                   # HTTP load testing
 
 # ── Observability ────────────────────────────────────────────────────
 brew "bottom"                # `btm` — system monitor
@@ -59,10 +69,32 @@ cask "font-meslo-lg-nerd-font"
 cask "font-caskaydia-cove-nerd-font"   # Cascadia Code NF
 cask "font-caskaydia-mono-nerd-font"   # Cascadia Mono NF
 
-# ── Dev apps (GUI casks) ─────────────────────────────────────────────
-# HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications" in .zshrc puts these
-# in ~/Applications so no sudo is required.
-cask "ghostty"               # primary terminal
+# ── Apps (minimal dev + product-manager baseline) ───────────────────
+# Standard brew installs to /Applications; userland fallback uses ~/Applications.
+
+# Terminal / security
+cask "ghostty"               # fast terminal
+cask "warp"                  # AI-enabled terminal
+cask "cmux"                  # terminal workspace for AI coding agents
 cask "1password-cli"         # `op` CLI for secrets + SSH agent
+
+# macOS workflow
+cask "rectangle"             # keyboard-driven window management
+cask "maccy"                 # lightweight clipboard history
+
+# Collaboration / product work
+cask "google-chrome"         # browser + web testing baseline
+cask "firefox@developer-edition" # frontend debugging / cross-browser testing
+cask "figma"                 # design and product collaboration
+cask "slack"                 # team comms
+cask "zoom"                  # meetings
+
+# Backend / API work
+cask "tableplus"             # fast database GUI
+cask "redis-insight"         # Redis GUI / profiler
+cask "yaak"                  # lightweight API client
+cask "requestly"             # HTTP interceptor / API testing proxy
+
+# AI work
 cask "claude"                # Claude Desktop
-cask "bruno"                 # open-source Postman alternative
+cask "codex-app"             # OpenAI Codex desktop app

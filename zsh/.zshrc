@@ -3,17 +3,25 @@
 #  Managed by: ~/dotfiles/zsh/.zshrc (symlinked)
 # ──────────────────────────────────────────────────────────────────────
 
-# ── Homebrew (userland-first, falls back to system brew) ─────────────
-if [ -x "$HOME/homebrew/bin/brew" ]; then
-  eval "$($HOME/homebrew/bin/brew shellenv)"
+# ── Homebrew (installer-selected prefix, with sensible fallback) ────
+unset HOMEBREW_CASK_OPTS
+[ -r "$HOME/.config/dotfiles/brew.zsh" ] && source "$HOME/.config/dotfiles/brew.zsh"
+
+if [ -n "${DOTFILES_ACTIVE_BREW_PREFIX:-}" ] && [ -x "$DOTFILES_ACTIVE_BREW_PREFIX/bin/brew" ]; then
+  eval "$("$DOTFILES_ACTIVE_BREW_PREFIX/bin/brew" shellenv)"
+  [ "$DOTFILES_ACTIVE_BREW_PREFIX" = "$HOME/homebrew" ] && export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 elif [ -x "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x "/usr/local/bin/brew" ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif [ -x "$HOME/homebrew/bin/brew" ]; then
+  eval "$($HOME/homebrew/bin/brew shellenv)"
+  export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 fi
 
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
-export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 
 # ── PATH additions ───────────────────────────────────────────────────
 typeset -U path
@@ -94,6 +102,9 @@ export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 # Prompt last
 command -v starship >/dev/null && eval "$(starship init zsh)"
 
-# ── Local overrides (not tracked) ─────────────────────────
+# ── Local overrides (not tracked) ────────────────────────────────────
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
-export NODE_EXTRA_CA_CERTS="$(brew --prefix)/etc/ca-certificates/cert.pem"
+
+if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -f "$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem" ]; then
+  export NODE_EXTRA_CA_CERTS="$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem"
+fi
