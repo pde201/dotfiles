@@ -236,7 +236,7 @@ link "$DOTFILES/config/mise"           "$HOME/.config/mise"
 if command -v fzf >/dev/null 2>&1; then
   say "Installing fzf keybindings & completion"
   "$BREW_PREFIX/opt/fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-fish >/dev/null
-  ok "fzf ready (Ctrl-R, Ctrl-T, Alt-C)"
+  ok "fzf ready (Ctrl-T, Alt-C; Ctrl-R uses Atuin + fzf)"
 fi
 
 # ── 7. Atuin import ──────────────────────────────────────────────────

@@ -51,7 +51,7 @@ Default is `DOTFILES_BREW_MODE=auto`: standard Homebrew first, userland only whe
    - `config/bat` → `~/.config/bat`
    - `config/atuin` → `~/.config/atuin`
    - `config/mise` → `~/.config/mise`
-7. Installs fzf keybindings (Ctrl-R for history, Ctrl-T for files, Alt-C for dirs)
+7. Installs fzf keybindings (Ctrl-T for files, Alt-C for dirs) and maps Ctrl-R to an Atuin-backed fzf history picker
 8. Imports your existing shell history into atuin
 
 Existing files are backed up to `~/.dotfiles-backup-<timestamp>/` before symlinks are placed.

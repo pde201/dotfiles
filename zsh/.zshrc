@@ -55,7 +55,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive
 
 # ── Keybindings ──────────────────────────────────────────────────────
-bindkey -e                              # emacs mode — Ctrl-R invokes atuin
+bindkey -e                              # emacs mode
 
 # ── Aliases: modern tool replacements ────────────────────────────────
 if command -v eza >/dev/null; then
@@ -90,7 +90,7 @@ alias ....='cd ../../..'
 # ── Tool init (order matters — starship last) ────────────────────────
 command -v mise     >/dev/null && eval "$(mise activate zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"  # `z <dir>` fuzzy-jump, `zi` interactive, `cd` unchanged
-command -v atuin    >/dev/null && eval "$(atuin init zsh)"  # ↑ and Ctrl-R both open atuin
+command -v atuin    >/dev/null && eval "$(atuin init zsh)"   # ↑ opens Atuin history
 
 # fzf keybindings (installed by install.sh via $(brew --prefix fzf)/install)
 [ -f "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
@@ -98,6 +98,30 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --preview-window
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+# Ctrl-R: Atuin history database + fzf picker.
+# Keeps Atuin's durable/synced history, but uses fzf's familiar UI.
+if command -v atuin >/dev/null && command -v fzf >/dev/null; then
+  __atuin_fzf_history_widget() {
+    emulate -L zsh
+    local selected
+
+    selected="$(
+      atuin search --cmd-only --limit 5000 --search-mode fuzzy --filter-mode global 2>/dev/null \
+        | awk 'length && !seen[$0]++' \
+        | fzf --no-sort --scheme=history --query "$LBUFFER" \
+            --prompt='atuin history> ' \
+            --preview='printf "%s\\n" {}' --preview-window=down:3:wrap
+    )" || return
+
+    LBUFFER="$selected"
+    RBUFFER=""
+    zle reset-prompt
+  }
+
+  zle -N __atuin_fzf_history_widget
+  bindkey '^R' __atuin_fzf_history_widget
+fi
 
 # Prompt last
 command -v starship >/dev/null && eval "$(starship init zsh)"
