@@ -6,7 +6,7 @@ Opinionated dev environment for macOS engineers. Uses the standard Homebrew inst
 
 **Tools:** `mise`, `node`, `pi`, `starship`, `zoxide`, `atuin`, `fzf`, `tealdeer`, `eza`, `bat`, `fd`, `ripgrep`, `sd`, `git-delta`, `difftastic`, `just`, `ast-grep`, `tokei`, `typos-cli`, `taplo`, `watchexec`, `ouch`, `tailspin`, `oha`, `bottom`, `hyperfine`, `dust`, `procs`, `gping`, `gh`, `gitui`, `git-absorb`, `jq`, `yq`, `sqlite`, `httpie`, `xh`, `mkcert`, `awscli`.
 
-**Apps:** Minimal dev/product baseline: Ghostty, Warp, cmux, 1Password CLI, Rectangle, Maccy, Chrome, Firefox Developer Edition, Figma, Slack, Zoom, TablePlus, Redis Insight, Yaak, Requestly, Claude Desktop, and Codex (`/Applications` with standard Homebrew, `~/Applications` for no-sudo fallback).
+**Apps:** Minimal dev/product baseline: Ghostty, Warp, 1Password CLI, Rectangle, Maccy, Chrome, Claude Desktop, and Codex (`/Applications` with standard Homebrew, `~/Applications` for no-sudo fallback).
 
 **AI coding tools:** pi (`pi`) via Homebrew, Claude Code (`claude`) and OpenAI Codex (`codex`) via npm globals, plus Claude Desktop and Codex desktop apps.
 
