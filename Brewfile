@@ -75,7 +75,6 @@ cask "font-caskaydia-mono-nerd-font"   # Cascadia Mono NF
 # Terminal / security
 cask "ghostty"               # fast terminal
 cask "warp"                  # AI-enabled terminal
-cask "cmux"                  # terminal workspace for AI coding agents
 cask "1password-cli"         # `op` CLI for secrets + SSH agent
 
 # macOS workflow
@@ -84,16 +83,8 @@ cask "maccy"                 # lightweight clipboard history
 
 # Collaboration / product work
 cask "google-chrome"         # browser + web testing baseline
-cask "firefox@developer-edition" # frontend debugging / cross-browser testing
-cask "figma"                 # design and product collaboration
-cask "slack"                 # team comms
-cask "zoom"                  # meetings
 
-# Backend / API work
-cask "tableplus"             # fast database GUI
-cask "redis-insight"         # Redis GUI / profiler
-cask "yaak"                  # lightweight API client
-cask "requestly"             # HTTP interceptor / API testing proxy
+
 
 # AI work
 cask "claude"                # Claude Desktop

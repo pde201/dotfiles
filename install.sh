@@ -120,7 +120,7 @@ else
 fi
 
 brew_bundle_install() {
-  "$BREW_PREFIX/bin/brew" bundle install --no-upgrade --file="$DOTFILES/Brewfile"
+  "$BREW_PREFIX/bin/brew" bundle install --no-upgrade --verbose --file="$DOTFILES/Brewfile"
 }
 
 # ── 2. Brew bundle ───────────────────────────────────────────────────
