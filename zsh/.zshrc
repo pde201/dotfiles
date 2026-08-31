@@ -132,3 +132,6 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -f "$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem" ]; then
   export NODE_EXTRA_CA_CERTS="$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem"
 fi
+
+# direnv: per-directory env (loads .envrc, e.g. GITHUB_TOKEN for GitHub Packages)
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
