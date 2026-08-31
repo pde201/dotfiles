@@ -50,6 +50,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # ── Completion ───────────────────────────────────────────────────────
+[ -d ~/.grok/completions/zsh ] && fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive
@@ -144,8 +145,5 @@ export PATH="/Users/prashant.deshpande/.local/bin:$PATH"
 # direnv: per-directory env (loads .envrc, e.g. GITHUB_TOKEN for GitHub Packages)
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-# >>> grok installer >>>
+# grok CLI (completions dir is added to fpath in the Completion section)
 export PATH="$HOME/.grok/bin:$PATH"
-fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
-# <<< grok installer <<<
