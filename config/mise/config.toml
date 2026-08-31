@@ -23,3 +23,7 @@ trusted_config_paths = [
 [env]
 # Make mise shims win on PATH without you having to think about it
 MISE_SHIMS_DIR = "~/.local/share/mise/shims"
+
+[tools]
+maven = "3.9.16"
+terraform = "1.13.4"
