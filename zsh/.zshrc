@@ -88,6 +88,22 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+# ── Claude Code ──────────────────────────────────────────────────────
+# The Jev hooks read TYPESAFE_API_KEY. Resolve it once per launch rather
+# than once per shell: op is called when you start Claude Code, not when
+# you open a terminal. A key already in the environment wins; no op, or an
+# item that does not resolve, leaves the hooks dormant and Claude Code
+# behaving exactly as it would without them. Override the item path in
+# ~/.zshrc.local, which is sourced below.
+: "${TYPESAFE_OP_PATH:=op://Private/TYPESAFE_API_KEY/credential}"
+claude() {
+  local key="${TYPESAFE_API_KEY:-}"
+  if [[ -z "$key" ]] && command -v op >/dev/null; then
+    key="$(op read "$TYPESAFE_OP_PATH" 2>/dev/null)"
+  fi
+  TYPESAFE_API_KEY="$key" command claude "$@"
+}
+
 # ── Tool init (order matters — starship last) ────────────────────────
 command -v mise     >/dev/null && eval "$(mise activate zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"  # `z <dir>` fuzzy-jump, `zi` interactive, `cd` unchanged
