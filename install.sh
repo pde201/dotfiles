@@ -8,6 +8,7 @@
 #  - Runs `brew bundle install --no-upgrade` against Brewfile
 #  - Installs AI coding CLIs: Claude Code and Codex (pi comes from Homebrew)
 #  - Symlinks configs into ~/.config, ~/.zshrc, ~/.gitconfig, etc.
+#  - Installs the Jev decision layer into Claude Code (DOTFILES_INSTALL_JEV_HOOKS=0 skips)
 #  - Idempotent — safe to re-run
 # ──────────────────────────────────────────────────────────────────────
 set -euo pipefail
@@ -23,6 +24,7 @@ USERLAND_BREW_PREFIX="$HOME/homebrew"
 BREW_MODE="${DOTFILES_BREW_MODE:-auto}" # auto | standard | userland
 CLEAN_USERLAND_BREW="${DOTFILES_CLEAN_USERLAND_BREW:-0}" # 1 removes old ~/homebrew after standard brew succeeds
 UPDATE_NPM_GLOBALS="${DOTFILES_UPDATE_NPM_GLOBALS:-0}" # 1 updates Claude Code and Codex
+INSTALL_JEV_HOOKS="${DOTFILES_INSTALL_JEV_HOOKS:-1}" # 0 skips the Claude Code hooks
 BREW_PREFIX="$STANDARD_BREW_PREFIX"
 CLEANED_USERLAND_BREW=0
 BACKUP="$HOME/.dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
@@ -68,6 +70,11 @@ esac
 case "$UPDATE_NPM_GLOBALS" in
   0|1) ;;
   *) warn "invalid DOTFILES_UPDATE_NPM_GLOBALS=$UPDATE_NPM_GLOBALS (use 0 or 1)"; exit 1 ;;
+esac
+
+case "$INSTALL_JEV_HOOKS" in
+  0|1) ;;
+  *) warn "invalid DOTFILES_INSTALL_JEV_HOOKS=$INSTALL_JEV_HOOKS (use 0 or 1)"; exit 1 ;;
 esac
 
 SUDO_AVAILABLE=0
@@ -245,7 +252,24 @@ if command -v atuin >/dev/null 2>&1 && [ ! -d "$HOME/.local/share/atuin" ]; then
   atuin import auto || warn "atuin import skipped (no prior history)"
 fi
 
-# ── 8. Next steps ────────────────────────────────────────────────────
+# ── 8. Claude Code hooks ─────────────────────────────────────────────
+# Merges its entries into ~/.claude/settings.json; see claude/jev/README.md.
+# Never fatal: the hooks are an optimisation, and a dotfiles install should
+# not fail because one did not take. They also fail open at runtime, so a
+# missing key or a missing network leaves Claude Code behaving as it does
+# without them.
+if [ "$INSTALL_JEV_HOOKS" = "1" ]; then
+  say "Installing the Jev decision layer into Claude Code"
+  if "$DOTFILES/claude/jev/install.sh"; then
+    ok "jev hooks installed"
+  else
+    warn "jev hooks not installed; see claude/jev/README.md"
+  fi
+else
+  ok "skipping jev hooks (DOTFILES_INSTALL_JEV_HOOKS=0)"
+fi
+
+# ── 9. Next steps ────────────────────────────────────────────────────
 cat <<EOF
 
 ────────────────────────────────────────────────────────────────────
@@ -259,6 +283,9 @@ cat <<EOF
          MesloLGS Nerd Font
     3. Optional: atuin register -u <you>   # enable encrypted history sync
     4. Sign in/configure AI tools as needed: claude, codex, pi, Codex.app
+    5. For the Claude Code hooks, put a TypeSafe key in the environment
+       Claude Code starts from:   export TYPESAFE_API_KEY=...
+       Without it they stay dormant. See claude/jev/README.md.
 
   Backups (if any):   $BACKUP
 ────────────────────────────────────────────────────────────────────

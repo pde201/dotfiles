@@ -122,7 +122,7 @@ if [ -z "${TYPESAFE_API_KEY:-}" ]; then
 
     Put it in ~/.zshrc.local (not tracked by this repo):
 
-      export TYPESAFE_API_KEY="$(op read 'op://Private/TypeSafe/credential')"
+      export TYPESAFE_API_KEY="$(op read 'op://Private/TYPESAFE_API_KEY/credential')"
 
 NOTE
 else

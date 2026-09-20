@@ -32,7 +32,7 @@ belongs in this repo:
 
 ```zsh
 # ~/.zshrc.local
-claude() { TYPESAFE_API_KEY="$(op read 'op://Private/TypeSafe/credential')" command claude "$@"; }
+claude() { TYPESAFE_API_KEY="$(op read 'op://Private/TYPESAFE_API_KEY/credential')" command claude "$@"; }
 ```
 
 With no key set, every hook is inert and the session behaves exactly as if
