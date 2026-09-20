@@ -153,12 +153,28 @@ jq -s 'map(.cost_usd // 0) | add' "$LOG"                   # what it has cost
 Override the location with `JEV_LOG` for a single file, or `JEV_STATE_DIR`
 to move the whole state directory.
 
-**The default thresholds are a starting point, not a measured result.**
-They were set without live data. When asked to tune them, work from this
-log on real sessions — find the decisions that were wrong, look at the
-probability that produced them, and move `JEV_GUARD_ASK_AT` or
-`JEV_GUARD_DENY_AT` to sit the other side of it. Raising `deny` is safer
-than lowering it: `ask` is cheap, `deny` is not.
+**The default thresholds have been measured against a recorded set, not
+against your sessions.** The README says what was measured and how much
+room the nearest one has.
+
+When asked to tune them, work from this log on real sessions — and reach
+for the threshold last. A wrong judgment is far more often a question that
+asks something other than what you meant. The first live run here had
+`invented_target` at 0.76 on `src/api/client.test.ts`, because it asked
+whether the path had been *seen* this session when the hazard is about
+whether it was *fabricated*; a test file named after a source file in
+evidence is an obvious inference, not a guess. No threshold separates that
+0.76 from the 0.86 of a genuinely invented path. Rewording the question
+moved the classes apart — conventional paths below `ask`, fabricated ones
+at 0.59 and 0.71 — which no amount of moving the number could have done.
+
+Every probability is logged, including those that fired nothing and those
+a hazard raised that were then set aside. That is what makes *lowering* a
+threshold possible: a log of only what crossed the line can argue for
+raising one and never for lowering one, so a question that has quietly
+stopped matching anything looks exactly like a question with nothing to
+catch. Change a number only once you are sure the question is right, and
+raising `deny` is safer than lowering it: `ask` is cheap, `deny` is not.
 
 ## Troubleshooting
 
