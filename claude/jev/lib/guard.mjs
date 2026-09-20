@@ -277,6 +277,13 @@ export async function guard({ toolName, input, cwd, task, recentCalls, observed,
     decision,
     reason: explain(fired, radius, decision),
     by: "jev",
+    // Everything Jev said, including what fell below the thresholds. The
+    // signals below carry only what fired, which is right for explaining a
+    // decision to someone and wrong for tuning: a log that records only
+    // what crossed the line can justify raising a threshold and can never
+    // justify lowering one, so a hazard that is quietly missing everything
+    // stays missing.
+    probabilities,
     signals: {
       ...fired,
       ...(suppressed && Object.keys(suppressed).length ? { suppressed } : {}),
