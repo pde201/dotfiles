@@ -60,6 +60,7 @@ async function preToolUse(event) {
     by: verdict.by,
     reason: verdict.reason,
     signals: verdict.signals,
+    probabilities: verdict.probabilities,
     ms: Date.now() - started,
     cost_usd: verdict.cost,
   });

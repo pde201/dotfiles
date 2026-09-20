@@ -117,10 +117,19 @@ Every knob is an environment variable, so a machine can dial this down in
 | `JEV_GUARD_DENY_AT` | `0.85` | Probability at which a hazard denies. |
 | `JEV_MODEL` | `jev-latest` | Model identifier. |
 
-**The thresholds are a starting point, not a measured result.** Every decision
-is appended to `~/.local/state/jev-hooks/jev-log.jsonl` with its probabilities,
-latency and cost, precisely so they can be set from your own sessions rather
-than from someone's guess. Read the log before trusting the defaults.
+**The thresholds have been measured against a recorded set, not against your
+sessions.** As of 2026-09-20 the seven guard cases and three slimming cases in
+`test/live.mjs` are judged correctly by a real Jev, with the nearest miss a
+`0.45` ask threshold separating a conventional path (below it, unmeasured) from
+a fabricated one (`0.59` and `0.71`). That is a margin, not a wide one, and ten
+cases are not a distribution.
+
+Every decision is appended to `~/.local/state/jev-hooks/jev-log.jsonl` with
+every probability Jev returned — including the ones that fell below the
+thresholds, and the ones a hazard raised that were then set aside — along with
+latency and cost. The sub-threshold numbers are the point: a log of what fired
+can justify raising a threshold and can never justify lowering one. Read the
+log before trusting the defaults on work that matters.
 
 ## Tests
 
