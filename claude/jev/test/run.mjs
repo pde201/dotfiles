@@ -2,7 +2,7 @@
 //  Tests. Everything here runs with no API key and no network: these
 //  cover the mechanics and, more importantly, the fail-open guarantees.
 //
-//    node --test claude/jev/test/            # offline, always
+//    node claude/jev/test/run.mjs            # offline, always
 //    TYPESAFE_API_KEY=… node claude/jev/test/live.mjs   # real judgments
 // ──────────────────────────────────────────────────────────────────────
 
@@ -24,7 +24,7 @@ delete process.env.TYPESAFE_API_KEY;
 
 const { denoise, toBlocks, stitch, selectBlocks, slim } = await import("../lib/slim.mjs");
 const { shouldWrap, rewrite, shellQuote } = await import("../lib/wrap.mjs");
-const { deterministicCheck, guard, ALLOW, ASK, DENY } = await import("../lib/guard.mjs");
+const { deterministicCheck, guard, decide, ALLOW, ASK, DENY } = await import("../lib/guard.mjs");
 const { harvest, composeBrief } = await import("../lib/carryforward.mjs");
 const fixtures = await import("./fixtures.mjs");
 
@@ -89,6 +89,64 @@ test("slim returns the input untouched with no api key", async () => {
 test("guard allows everything with no api key", async () => {
   const verdict = await guard({ toolName: "Bash", input: { command: "ls -la" }, cwd: "/tmp", task: "look around" });
   assert.equal(verdict.decision, ALLOW);
+});
+
+// ── how probabilities become a decision ──────────────────────────────
+//
+// The numbers in these cases are the ones Jev actually returned on
+// 2026-09-20, copied from a live run. Until this section existed the
+// combination logic could only be exercised by spending real API calls,
+// which is why the first case below reached a user before it was caught.
+
+const reach = (score) => ({ score, legend: {} });
+
+test("a guessed path in a read-only call is not worth interrupting for", () => {
+  // `npm test -- src/api/client.test.ts` for the task "run the unit tests
+  // for the api client", having seen src/api/client.ts. The test file is
+  // an obvious sibling of a file in evidence, and the call only reads.
+  const { decision } = decide({ invented_target: 0.76 }, reach(0.2));
+  assert.equal(decision, ALLOW);
+});
+
+test("a guessed path still counts when the call changes something", () => {
+  const { decision } = decide({ invented_target: 0.76 }, reach(1.5));
+  assert.equal(decision, ASK);
+});
+
+test("a guessed path still speaks up alongside a hazard that stands alone", () => {
+  const { decision, fired } = decide(
+    { intent_mismatch: 0.87, destructive_unrequested: 0.6, invented_target: 0.86 },
+    reach(1.82),
+  );
+  assert.equal(decision, ASK);
+  assert.ok(fired.invented_target, "it belongs in the explanation, it just cannot accuse on its own");
+});
+
+test("exposing a credential is denied even though it only reads", () => {
+  // The read-only exemption is scoped to the one hazard that earns it:
+  // printing a private key changes nothing and is still catastrophic.
+  const { decision } = decide({ secret_exposure: 0.95, invented_target: 0.93 }, reach(0.02));
+  assert.equal(decision, DENY);
+});
+
+test("repeating a call that just failed is asked about, not denied", () => {
+  const { decision } = decide({ repeat_failure: 0.97 }, reach(0.3));
+  assert.equal(decision, ASK);
+});
+
+test("a call that trips nothing is allowed however far it reaches", () => {
+  assert.equal(decide({}, reach(4)).decision, ALLOW);
+});
+
+test("wide reach turns a question into a refusal", () => {
+  const { decision } = decide({ intent_mismatch: 0.7 }, reach(4));
+  assert.equal(decision, DENY);
+});
+
+test("probabilities below the ask threshold are left alone", () => {
+  const { decision, fired } = decide({ intent_mismatch: 0.44, invented_target: 0.44 }, reach(2));
+  assert.equal(decision, ALLOW);
+  assert.deepEqual(fired, {});
 });
 
 // ── deterministic guard ──────────────────────────────────────────────
