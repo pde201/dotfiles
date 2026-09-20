@@ -165,3 +165,19 @@ on a 500-line output is on the order of $0.0002; a guard call is smaller. The
 [parallel questions cookbook](https://docs.typesafe.ai/cookbooks/parallel_questions.md)
 measures 13 batched questions at 0.27s against a 54k-character document, which
 is why every hook here asks all of its questions in a single request.
+
+## As a skill
+
+`SKILL.md` in this directory makes `claude/jev/` a Claude Code skill, so
+this directory *is* the skill package — the hook scripts, the installer and
+the tests are its supporting files, referenced by the relative paths they
+already have.
+
+```bash
+npx skills use "https://github.com/pde201/dotfiles" --skill "jev"
+```
+
+The skill is the operating manual, not the mechanism: the hooks are run by
+Claude Code, so the skill covers installing and removing them, reading the
+decision log, tuning the thresholds against it, and working out why a
+particular call was questioned.
