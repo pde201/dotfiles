@@ -10,6 +10,8 @@ Opinionated dev environment for macOS engineers. Uses the standard Homebrew inst
 
 **AI coding tools:** pi (`pi`) via Homebrew, Claude Code (`claude`) and OpenAI Codex (`codex`) via npm globals, plus Claude Desktop and Codex desktop apps.
 
+**Claude Code hooks:** the [Jev decision layer](claude/jev/README.md) — trims bloated command output before it reaches the conversation, questions tool calls that do not match the task or would expose a credential, and carries what matters across a compaction. Needs `TYPESAFE_API_KEY` in the environment Claude Code starts from; without it the hooks stay dormant and Claude Code behaves exactly as it does without them.
+
 **Fonts (Nerd-Font patched):** JetBrains Mono, MesloLGS, Cascadia Code, Cascadia Mono.
 
 **Configs:** zshrc with sensible history + aliases, Starship prompt with project-aware runtime context, Git with delta pager + rerere + safer defaults, bat/atuin/mise dialed in.
@@ -53,6 +55,7 @@ Default is `DOTFILES_BREW_MODE=auto`: standard Homebrew first, userland only whe
    - `config/mise` → `~/.config/mise`
 7. Installs fzf keybindings (Ctrl-T for files, Alt-C for dirs) and maps Ctrl-R to an Atuin-backed fzf history picker
 8. Imports your existing shell history into atuin
+9. Installs the Jev hooks into `~/.claude/settings.json`, merging rather than symlinking because Claude Code writes to that file itself — skip with `DOTFILES_INSTALL_JEV_HOOKS=0`
 
 Existing files are backed up to `~/.dotfiles-backup-<timestamp>/` before symlinks are placed.
 
@@ -85,6 +88,9 @@ atuin register -u <username>
 ## Uninstall
 
 ```bash
+# Take the Claude Code hooks back out (restores settings.json as it was)
+~/dotfiles/claude/jev/install.sh --remove
+
 # Remove everything brew installed
 brew bundle cleanup --file=~/dotfiles/Brewfile --force
 

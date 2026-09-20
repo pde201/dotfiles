@@ -83,7 +83,7 @@ every shell:
 
 ```zsh
 # ~/.zshrc.local — not tracked
-claude() { TYPESAFE_API_KEY="$(op read 'op://Private/TypeSafe/credential')" command claude "$@"; }
+claude() { TYPESAFE_API_KEY="$(op read 'op://Private/TYPESAFE_API_KEY/credential')" command claude "$@"; }
 ```
 
 Never print the key, never pass it as a command-line argument, and never
