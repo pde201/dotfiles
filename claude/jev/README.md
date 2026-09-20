@@ -125,7 +125,7 @@ than from someone's guess. Read the log before trusting the defaults.
 ## Tests
 
 ```bash
-node --test claude/jev/test/              # offline; no key, no network
+node claude/jev/test/run.mjs              # offline; no key, no network
 TYPESAFE_API_KEY=… node claude/jev/test/live.mjs   # real judgments
 ```
 
