@@ -65,6 +65,7 @@ Keep machine-specific settings out of the repo:
 
 - `~/.zshrc.local` — auto-sourced at end of zshrc (work laptop vs personal, extra PATH, private aliases)
 - `~/.gitconfig.local` — auto-included by gitconfig (different `user.email` per machine, work signing key, etc.)
+- `TYPESAFE_OP_PATH` — set it in `~/.zshrc.local` to point the `claude` wrapper at a different 1Password item. The wrapper resolves `TYPESAFE_API_KEY` when Claude Code launches, so `op` runs once per launch rather than once per shell; an already-exported key wins, and without `op` the hooks simply stay dormant.
 
 ## After install
 
