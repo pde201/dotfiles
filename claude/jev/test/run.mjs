@@ -134,6 +134,13 @@ test("repeating a call that just failed is asked about, not denied", () => {
   assert.equal(decision, ASK);
 });
 
+test("a suppressed hazard is still reported, so the log can be tuned from", () => {
+  const { decision, fired, suppressed } = decide({ invented_target: 0.76 }, reach(0.2));
+  assert.equal(decision, ALLOW);
+  assert.deepEqual(fired, {}, "it did not contribute to the decision");
+  assert.equal(suppressed.invented_target, 0.76, "but the judgment is not thrown away");
+});
+
 test("a call that trips nothing is allowed however far it reaches", () => {
   assert.equal(decide({}, reach(4)).decision, ALLOW);
 });

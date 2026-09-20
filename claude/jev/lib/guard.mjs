@@ -221,7 +221,11 @@ export function decide(probabilities, radius) {
   // nothing is being changed. It still speaks when something else fired,
   // where it corroborates rather than accuses.
   if ((radius?.score ?? 0) < CHANGES_SOMETHING && !triggered.some((t) => !t.onlyWithChange)) {
-    return { decision: ALLOW, fired: {} };
+    // Allowed — but hand back what was set aside rather than dropping it.
+    // A hazard suppressed silently is a hazard nobody can tune: the log is
+    // the only trace of a judgment that never became a prompt, and a
+    // suppression that turns out to be wrong is invisible without it.
+    return { decision: ALLOW, fired: {}, suppressed: { ...fired } };
   }
 
   // Reach is a multiplier, not a hazard of its own: something already
@@ -267,13 +271,18 @@ export async function guard({ toolName, input, cwd, task, recentCalls, observed,
 
   const probabilities = nouls(res, Object.keys(HAZARDS));
   const radius = pickScore(res, "blast_radius");
-  const { decision, fired } = decide(probabilities, radius);
+  const { decision, fired, suppressed } = decide(probabilities, radius);
 
   return {
     decision,
     reason: explain(fired, radius, decision),
     by: "jev",
-    signals: { ...fired, blast_radius: radius?.score, blast_radius_label: radius?.legend?.[String(Math.round(radius?.score ?? 0))] },
+    signals: {
+      ...fired,
+      ...(suppressed && Object.keys(suppressed).length ? { suppressed } : {}),
+      blast_radius: radius?.score,
+      blast_radius_label: radius?.legend?.[String(Math.round(radius?.score ?? 0))],
+    },
     usage: res.usage,
     cost: costUsd(res.usage),
   };
