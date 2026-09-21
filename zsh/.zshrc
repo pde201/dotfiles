@@ -150,17 +150,21 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -f "$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem" ]; then
   export NODE_EXTRA_CA_CERTS="$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem"
 fi
-export PATH="/Users/prashant.deshpande/homebrew/opt/rustup/bin:$PATH"
-
 
 # Added by Antigravity CLI installer
-export PATH="/Users/prashant.deshpande/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # bun completions
-[ -s "/Users/prashant.deshpande/.bun/_bun" ] && source "/Users/prashant.deshpande/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # direnv: per-directory env (loads .envrc, e.g. GITHUB_TOKEN for GitHub Packages)
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 # grok CLI (completions dir is added to fpath in the Completion section)
 export PATH="$HOME/.grok/bin:$PATH"
+
+# kimi-code
+export PATH="$HOME/.kimi-code/bin:$PATH"
+
+# duckdb CLI
+export PATH="$HOME/.duckdb/cli/latest:$PATH"

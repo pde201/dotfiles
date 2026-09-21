@@ -129,9 +129,12 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[user]
+	email = p.deshpande@gmail.com
+	name = Prashant Deshpande
 [credential "https://github.com"]
 	helper = 
-	helper = !/Users/prashant.deshpande/homebrew/bin/gh auth git-credential
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/Users/prashant.deshpande/homebrew/bin/gh auth git-credential
+	helper = !/opt/homebrew/bin/gh auth git-credential
