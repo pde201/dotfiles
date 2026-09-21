@@ -89,9 +89,10 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # ── Claude Code ──────────────────────────────────────────────────────
-# The Jev hooks read TYPESAFE_API_KEY. Resolve it once per launch rather
-# than once per shell: op is called when you start Claude Code, not when
-# you open a terminal. A key already in the environment wins; no op, or an
+# The Jev hooks (installed from the skills repo, not this one) read
+# TYPESAFE_API_KEY. Resolve it once per launch rather than once per
+# shell: op is called when you start Claude Code, not when you open a
+# terminal. A key already in the environment wins; no op, or an
 # item that does not resolve, leaves the hooks dormant and Claude Code
 # behaving exactly as it would without them. Override the item path in
 # ~/.zshrc.local, which is sourced below.
