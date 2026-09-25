@@ -155,6 +155,9 @@ if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -f "$HOMEBREW_PREFIX/etc/ca-certificates/c
   export NODE_EXTRA_CA_CERTS="$HOMEBREW_PREFIX/etc/ca-certificates/cert.pem"
 fi
 
+# rustup (keg-only): user-prefix Homebrew installs keep it off the default PATH
+[ -d "$HOME/homebrew/opt/rustup/bin" ] && export PATH="$HOME/homebrew/opt/rustup/bin:$PATH"
+
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
 
