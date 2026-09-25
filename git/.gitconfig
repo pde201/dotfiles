@@ -138,3 +138,27 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[includeIf "hasconfig:remote.*.url:https://github.com/springeq-inf/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://github.com/springeq/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:git@github.com:springeq-inf/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:git@github.com:springeq/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/springeq-inf/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/springeq/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://github.com/Spring-EQ-Shared-APIs/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:git@github.com:Spring-EQ-Shared-APIs/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/Spring-EQ-Shared-APIs/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://github.com/spring-eq-shared-apis/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:git@github.com:spring-eq-shared-apis/**"]
+	path = ~/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/spring-eq-shared-apis/**"]
+	path = ~/.gitconfig-work
