@@ -59,19 +59,23 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive
 bindkey -e                              # emacs mode
 
 # ── Aliases: modern tool replacements ────────────────────────────────
-if command -v eza >/dev/null; then
-  alias ls='eza --group-directories-first --icons=auto'
-  alias ll='eza -lh --git --group-directories-first --icons=auto'
-  alias la='eza -lah --git --group-directories-first --icons=auto'
-  alias tree='eza --tree --icons=auto'
-fi
+# Humans only: agent shells snapshot these from an interactive zsh, then break on
+# `cat <<EOF`, `ls`, `ps -ww`, `grep -r` when the replacement is missing or flag-incompatible.
+if [[ -o interactive && -z $CLAUDECODE ]]; then
+  if command -v eza >/dev/null; then
+    alias ls='eza --group-directories-first --icons=auto'
+    alias ll='eza -lh --git --group-directories-first --icons=auto'
+    alias la='eza -lah --git --group-directories-first --icons=auto'
+    alias tree='eza --tree --icons=auto'
+  fi
 
-command -v bat >/dev/null && alias cat='bat --paging=never'
-command -v fd  >/dev/null && alias find='fd'
-command -v rg  >/dev/null && alias grep='rg'
-command -v dust >/dev/null && alias du='dust'
-command -v procs >/dev/null && alias ps='procs'
-command -v btm >/dev/null && alias top='btm'
+  command -v bat >/dev/null && alias cat='bat --paging=never'
+  command -v fd  >/dev/null && alias find='fd'
+  command -v rg  >/dev/null && alias grep='rg'
+  command -v dust >/dev/null && alias du='dust'
+  command -v procs >/dev/null && alias ps='procs'
+  command -v btm >/dev/null && alias top='btm'
+fi
 command -v delta >/dev/null && export GIT_PAGER='delta'
 
 alias g='git'
@@ -168,3 +172,10 @@ export PATH="$HOME/.kimi-code/bin:$PATH"
 
 # duckdb CLI
 export PATH="$HOME/.duckdb/cli/latest:$PATH"
+
+# oMLX: CLI shim path begin
+case ":$PATH:" in
+  *":$HOME/.omlx/bin:"*) ;;
+  *) export PATH="$HOME/.omlx/bin:$PATH" ;;
+esac
+# oMLX: CLI shim path end
